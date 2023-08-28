@@ -1,5 +1,5 @@
 ---
 collections:
   # Utils collection to get update_fact module
-- ansible.utils
-- community.libvirt
+  - ansible.utils
+  - community.libvirt
