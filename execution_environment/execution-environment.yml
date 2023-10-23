@@ -1,0 +1,47 @@
+---
+version: 3
+
+images:
+  base_image:
+    #name: registry.redhat.io/ansible-automation-platform-23/ee-supported-rhel8:latest
+    name: quay.io/ansible/ansible-runner:latest
+
+dependencies:
+  system:
+    - libvirt-devel [platform:rpm]
+    - libvirt [platform:rpm]
+    - pkgconf-pkg-config [platform:rpm]
+    - gcc [platform:rpm]
+    - platform-python-devel [platform:rpm]
+    - python38-devel [platform:rpm]
+    #- python3-libvirt [platform:rpm]
+  galaxy:
+    collections:
+      - community.libvirt
+      #- community.general
+  python:
+    #- pylibvirt
+    - libvirt-python
+    #- libvirt
+
+additional_build_files:
+#  - src: ansible.cfg
+#    dest: configs/ansible.cfg
+  - src: libvirt_ssh_key
+    dest: configs
+
+# https://libvirt.org/uri.html
+additional_build_steps:
+  #prepend_galaxy:
+    # Copy ansible.cfg from build directory to EE
+    #- COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+    #- ADD _build/configs/ansible.cfg ~/.ansible.cfg
+    #- ADD _build/configs/libvirt_ssh_key /home/runner/libvirt_ssh_key
+
+  append_final:
+    #- ENV LIBVIRT_DEFAULT_URI='qemu+ssh://bblasco:mypassword@opti.lan/system?sshauth=ssh-password&no_verify=1'
+    - ENV LIBVIRT_DEFAULT_URI='qemu+ssh://bblasco@opti.lan/system?keyfile=/home/runner/libvirt_ssh_key&no_verify=1'
+    - ADD _build/configs/libvirt_ssh_key /home/runner/libvirt_ssh_key
+
+#options:
+  #package_manager_path: /usr/bin/microdnf
