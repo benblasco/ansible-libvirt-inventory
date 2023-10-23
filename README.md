@@ -5,21 +5,34 @@ by Ansible Automation Platform
 
 # Libvirt host prep notes
 
-Ensure to add the regular user to the libvirt group on the hypervisor host
+Ensure to add the regular user (you'll be using for Ansible playbooks) to the libvirt group on the hypervisor host
 ```
 usermod -a -G libvirt <username>
 ```
 
+# Execution environment build notes
+
+Wherever you are building the EE:
+1. Git clone this repo
+2. Generate an SSH key pair where the private key is named libvirt_ssh_key, and place the pair under execution_environment/
+3. `cd execution_environment`
+4. Build the EE, e.g. `ansible-builder build --prune-images -t <your_ee_name>:latest
+5. Push the EE to Automation Hub or Quay
+
+Note: You will need to edit the execution-environment.yml line where it says `LIBVIRT_DEFAULT_URI` and ensure it contains the correct user name and host name for the hypervisor.
+
+Note: You will have to build a separate EE for every hypervisor you are wanting to collect inventory from, due to the LIBVIRT_DEFAULT_URI being hard coded. I do not yet know a way around this, but am certain there is one.
+
 ## With an execution environment
 
 ```
-ansible-navigator inventory -i inventory.libvirt.yml --eei localhost/ee-libvirt-micro:latest --list -m stdout -vv
+ansible-navigator inventory -i inventory.libvirt.yml --eei localhost/<your_ee_name>:latest --list -m stdout -vv
 
 ```
 
 ## Ad hoc command to ping hosts
 ```
-ansible-navigator exec --eei localhost/ee-libvirt-micro:latest -- ansible -i inventory.libvirt.yml all -m ping -u bblasco
+ansible-navigator exec --eei localhost/<your_ee_name>:latest -- ansible -i inventory.libvirt.yml all -m ping -u bblasco
 ```
 
 # How to use this code in AAP
