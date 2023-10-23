@@ -26,9 +26,10 @@ ansible-navigator exec --eei localhost/ee-libvirt-micro:latest -- ansible -i inv
 
 1. Create a project that points to this repo
 2. Create an inventory
-3. Create an inventory source that 
+3. Create an inventory source with:
     - Source: From a project (ie this project)
     - Inventory file: inventory.libvirt.yml
     - Execution environment: The execution environment created from this repo
     - Credential: None (as they are embedded in the EE)
     - Options: Overwrite, Overwrite variables, Update on launch
+4. Add multiple instances of the inventory source if you have multiple instances of your hypervisor to access for retrieval of inventory
