@@ -16,12 +16,19 @@ Wherever you are building the EE:
 1. Git clone this repo
 2. Generate an SSH key pair where the private key is named libvirt_ssh_key, and place the pair under execution_environment/
 3. `cd execution_environment`
-4. Build the EE, e.g. `ansible-builder build --prune-images -t <your_ee_name>:latest
+4. Build the EE, e.g. `ansible-builder build --prune-images -t <your_ee_name>:latest`
 5. Push the EE to Automation Hub or Quay
 
 Note: You will need to edit the execution-environment.yml line where it says `LIBVIRT_DEFAULT_URI` and ensure it contains the correct user name and host name for the hypervisor.
 
 Note: You will have to build a separate EE for every hypervisor you are wanting to collect inventory from, due to the LIBVIRT_DEFAULT_URI being hard coded. I do not yet know a way around this, but am certain there is one.
+
+You may also need to use a python virtual environment for the build:
+```
+virtualenv ansible-dev-tools
+source ansible-dev-tools/bin/activate
+pip3 install ansible-dev-tools
+```
 
 ## With an execution environment
 
