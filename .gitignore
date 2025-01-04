@@ -1,0 +1,6 @@
+ansible-navigator.log
+execution_environment/ansible-navigator.log
+execution_environment/context/
+execution_environment/libvirt_ssh_key
+execution_environment/libvirt_ssh_key.pub
+inventory_plugins/__pycache__/
